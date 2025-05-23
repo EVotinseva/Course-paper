@@ -13,7 +13,7 @@
             <Picker x:Name="categoryPicker" Title="Категория">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
-                        <x:String>Личное</x:String>
+                        <x:String>Личн</x:String>
                         <x:String>Работа</x:String>
                         <x:String>Учёба</x:String>
                         <x:String>Дом</x:String>
