@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyFirstMauiApp.Views.BottomNavigationBar">
+
+    <ContentView.Content>
+        <Grid BackgroundColor="#6923B3"
+              Padding="0"
+              HeightRequest="64"
+              ColumnDefinitions="*,*,*"
+              VerticalOptions="End"
+              HorizontalOptions="Fill">
+
+            <Button Text="День"
+                    TextColor="White"
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    Clicked="OnDayClicked"/>
+
+            <Button Text="Неделя"
+                    TextColor="White"
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    Grid.Column="1"
+                    Clicked="OnWeekClicked"/>
+
+            <Button Text="Месяц"
+                    TextColor="White"
+                    FontSize="18"
+                    BackgroundColor="Transparent"
+                    Grid.Column="2"
+                    Clicked="OnMonthClicked"/>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

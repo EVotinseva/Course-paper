@@ -1,50 +1,127 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:MyFirstMauiApp"
              x:Class="MyFirstMauiApp.Views.SchedulePage"
-             Title="Сегодня">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+" Clicked="OnAddClicked" Priority="0" Order="Primary"/>
-    </ContentPage.ToolbarItems>
+             BackgroundColor="#F5F5F5"
+             NavigationPage.HasNavigationBar="False">
+    <!-- убираем фиолетовую плашку -->
 
     <ContentPage.Content>
-        <StackLayout Padding="10" Spacing="10">
 
-            <!-- Переключатель даты -->
-            <DatePicker x:Name="datePicker"
-                    Date="{x:Static sys:DateTime.Today}"
-                     DateSelected="OnDateSelected"/>
+        <VerticalStackLayout Padding="10" Spacing="15">
+
+            <!-- Строка с DatePicker + кнопка "+" -->
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+
+                <!-- Красивый компактный DatePicker -->
+                <Border BackgroundColor="#3E0FB6"
+                        StrokeThickness="1"
+                        Stroke="#CCCCCC"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="5"
+                        HeightRequest="50"
+                        VerticalOptions="Center"
+                        Margin="0,0,10,0">
+
+                    <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
+                Format="dd MMMM yyyy"
+                TextColor="White"
+                BackgroundColor="Transparent"
+                FontAttributes="Bold"
+                Visual="Default"
+                DateSelected="OnDateSelected"
+                />
+                </Border>
+
+                <!-- Кнопка "+" -->
+                <Button Text="＋"
+                        BackgroundColor="#3E0FB6"
+                        TextColor="White"
+                        CornerRadius="20"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Clicked="OnAddClicked"
+                        Grid.Column="1" />
+            </Grid>
+
+            <!-- Кнопка "Быстрое добавление задачи" -->
+            <Button Text="Быстрое добавление задачи"
+                    BackgroundColor="#3E0FB6"
+                    TextColor="White"
+                    CornerRadius="10"
+                    FontAttributes="Bold"
+                    HeightRequest="45"
+                    Clicked="OnAddClicked" />
+
+            <!-- Заголовок "Задачи на день" -->
+            <Label Text="Задачи на день"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#333333"
+                   HorizontalOptions="Center"
+                   Margin="0,10,0,5" />
 
             <!-- Список задач -->
-            <CollectionView ItemsSource="{Binding TodayItems}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Margin="5" Padding="10" CornerRadius="10" HasShadow="True">
-                            <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto">
-                                <!-- Чекбокс -->
-                                <CheckBox Grid.RowSpan="2" VerticalOptions="Center"
-                          IsChecked="{Binding IsDone}"
-                          CheckedChanged="OnCheckChanged" />
+            <Frame BackgroundColor="#E0E0E0"
+                   CornerRadius="12"
+                   Padding="10"
+                   HasShadow="True"
+                   HeightRequest="300">
 
-                                <!-- Название + время -->
-                                <StackLayout Grid.Column="1">
-                                    <Label Text="{Binding Title}" FontSize="18"
-                           TextDecorations="{Binding IsDone, Converter={StaticResource BoolToTextDecorationConverter}}" />
-                                    <Label Text="{Binding Category}" FontSize="14" />
-                                    <Label Text="{Binding Description}" FontSize="14" />
-                                    <Label Text="{Binding Time}" FontSize="12" />
-                                </StackLayout>
+                <CollectionView ItemsSource="{Binding TodayItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#C5CAE9"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 8"
+                                    Margin="0,5">
 
-                                <!-- Удаление -->
-                                <Button Grid.Column="2" Text="🗑" BackgroundColor="Transparent" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" />
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                <Grid ColumnDefinitions="Auto, *, Auto, Auto"
+                                      Padding="5"
+                                      ColumnSpacing="10">
 
-        </StackLayout>
+                                    <!-- Чекбокс выполнения -->
+                                    <CheckBox IsChecked="{Binding IsDone}"
+                                              CheckedChanged="OnCheckChanged"
+                                              VerticalOptions="Center" />
+
+                                    <!-- Название задачи -->
+                                    <Label Text="{Binding Title}"
+                                           FontSize="16"
+                                           VerticalOptions="Center"
+                                           TextColor="#212121"
+                                           Grid.Column="1" />
+
+                                    <!-- Кнопка редактировать -->
+                                    <ImageButton Source="edit.png"
+                                                 Grid.Column="2"
+                                                 WidthRequest="24"
+                                                 HeightRequest="24"
+                                                 BackgroundColor="Transparent"
+                                                 Margin="5,0"
+                                                 CommandParameter="{Binding .}" />
+
+                                    <!-- Кнопка удалить -->
+                                    <Button Text="🗑"
+                                            Grid.Column="3"
+                                            BackgroundColor="Transparent"
+                                            Clicked="OnDeleteClicked"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            
+
+        </VerticalStackLayout>
+
     </ContentPage.Content>
+
 </ContentPage>

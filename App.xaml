@@ -6,6 +6,11 @@
     <Application.Resources>
         <ResourceDictionary>
             <local:BoolToTextDecorationConverter x:Key="BoolToTextDecorationConverter" />
+            <Style TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Visual" Value="Default"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
+    
 </Application>
