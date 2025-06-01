@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MyFirstMauiApp"
+             xmlns:views="clr-namespace:MyFirstMauiApp.Views"
              x:Class="MyFirstMauiApp.Views.SchedulePage"
              BackgroundColor="#F5F5F5"
              NavigationPage.HasNavigationBar="False">
@@ -69,7 +70,7 @@
                    CornerRadius="12"
                    Padding="10"
                    HasShadow="True"
-                   HeightRequest="300">
+                   HeightRequest="550">
 
                 <CollectionView ItemsSource="{Binding TodayItems}">
                     <CollectionView.ItemTemplate>
@@ -78,6 +79,10 @@
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 8"
                                     Margin="0,5">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnTaskTapped"
+                              CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
 
                                 <Grid ColumnDefinitions="Auto, *, Auto, Auto"
                                       Padding="5"
@@ -102,14 +107,18 @@
                                                  HeightRequest="24"
                                                  BackgroundColor="Transparent"
                                                  Margin="5,0"
+                                                 Clicked="OnEditClicked"
                                                  CommandParameter="{Binding .}" />
 
                                     <!-- Кнопка удалить -->
-                                    <Button Text="🗑"
-                                            Grid.Column="3"
-                                            BackgroundColor="Transparent"
-                                            Clicked="OnDeleteClicked"
-                                            CommandParameter="{Binding .}" />
+                                    <ImageButton Source="delete.png"
+                                                 Grid.Column="3"
+                                                 WidthRequest="24"
+                                                 HeightRequest="24"
+                                                 Margin="5,0"
+                                                 BackgroundColor="Transparent"
+                                                 Clicked="OnDeleteClicked"
+                                                 CommandParameter="{Binding .}" />
                                 </Grid>
 
                             </Border>
@@ -117,7 +126,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Frame>
-
+            <views:BottomNavigationBar Grid.Row="1" />
             
 
         </VerticalStackLayout>

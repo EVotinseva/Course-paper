@@ -6,7 +6,7 @@ namespace MyFirstMauiApp.Views
 {
     public partial class SchedulePage : ContentPage
     {
-        private ScheduleViewModel ViewModel;
+        public ScheduleViewModel ViewModel;
 
         public SchedulePage()
         {
@@ -16,19 +16,19 @@ namespace MyFirstMauiApp.Views
         }
 
         // ? Обработка выбора даты
-        private void OnDateSelected(object sender, DateChangedEventArgs e)
+        public void OnDateSelected(object sender, DateChangedEventArgs e)
         {
             ViewModel.LoadItemsForDate(e.NewDate.Date);
         }
 
         // ? Переход к добавлению нового дела
-        private async void OnAddClicked(object sender, EventArgs e)
+        public async void OnAddClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddEditPage(ViewModel));
         }
 
         // ? Отметка выполнения
-        private void OnCheckChanged(object sender, CheckedChangedEventArgs e)
+        public void OnCheckChanged(object sender, CheckedChangedEventArgs e)
         {
             if (sender is CheckBox cb && cb.BindingContext is ScheduleItem item)
             {
@@ -37,15 +37,31 @@ namespace MyFirstMauiApp.Views
         }
 
         // ? Удаление задачи
-        private async void OnDeleteClicked(object sender, EventArgs e)
+        public async void OnDeleteClicked(object sender, EventArgs e)
         {
-            if (sender is Button btn && btn.CommandParameter is ScheduleItem item)
+            if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
             {
                 bool confirm = await DisplayAlert("Удалить", $"Удалить дело «{item.Title}»?", "Да", "Нет");
                 if (confirm)
                 {
                     ViewModel.DeleteItem(item);
                 }
+            }
+        }
+
+        public async void OnEditClicked(object sender, EventArgs e)
+        {
+            if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
+            {
+                await Navigation.PushAsync(new AddEditPage(ViewModel, item));
+            }
+        }
+
+        public async void OnTaskTapped(object sender, EventArgs e)
+        {
+            if (sender is Border border && border.BindingContext is ScheduleItem item)
+            {
+                await Navigation.PushAsync(new TaskDetailsPage(item));
             }
         }
     }

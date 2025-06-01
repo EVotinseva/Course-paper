@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyFirstMauiApp.Views.BottomNavigationBar">
+             x:Class="MyFirstMauiApp.Views.BottomNavigationBar"
+             Padding="0"
+             Margin="0"
+             HorizontalOptions="Fill"
+             VerticalOptions="End">
 
     <ContentView.Content>
-        <Grid BackgroundColor="#6923B3"
+        <Grid BackgroundColor="#3E0FB6"
               Padding="0"
-              HeightRequest="64"
+              HeightRequest="84"
+              WidthRequest="412"
               ColumnDefinitions="*,*,*"
               VerticalOptions="End"
               HorizontalOptions="Fill">

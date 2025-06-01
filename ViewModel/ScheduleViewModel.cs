@@ -23,107 +23,112 @@ namespace MyFirstMauiApp
     public class ScheduleViewModel
     {
         public ObservableCollection<ScheduleItem> TodayItems { get; set; } = new();
+        private List<ScheduleItem> AllItems { get; set; } = new();
+
         private const string FileName = "tasks.json";
         private string FilePath => Path.Combine(FileSystem.AppDataDirectory, FileName);
 
+        public DateTime SelectedDate { get; set; } = DateTime.Today;
+
         public ScheduleViewModel()
         {
-            LoadItems();
+            InitializeAsync();
         }
 
-        public async void LoadItems()
+        private async void InitializeAsync()
+        {
+            await LoadAllItems();
+            LoadItemsForDate(SelectedDate);
+        }
+
+        public async Task LoadAllItems()
         {
             if (File.Exists(FilePath))
             {
                 try
                 {
                     var json = await File.ReadAllTextAsync(FilePath);
-                    var allItems = JsonSerializer.Deserialize<List<ScheduleItem>>(json) ?? new();
-                    var today = DateTime.Today;
-
-                    var todayList = allItems
-                        .Where(i => i.Date.Date == today)
-                        .OrderBy(i => i.Time)
-                        .ToList();
-
-                    MainThread.BeginInvokeOnMainThread(() =>
-                    {
-                        TodayItems.Clear();
-                        foreach (var item in todayList)
-                            TodayItems.Add(item);
-                    });
+                    AllItems = JsonSerializer.Deserialize<List<ScheduleItem>>(json) ?? new();
                 }
                 catch
                 {
-                    // Ошибка чтения — игнорируем
+                    AllItems = new List<ScheduleItem>();
                 }
             }
-        }
-        public async void LoadItemsForDate(DateTime date)
-        {
-            if (File.Exists(FilePath))
+            else
             {
-                var json = await File.ReadAllTextAsync(FilePath);
-                var allItems = JsonSerializer.Deserialize<List<ScheduleItem>>(json) ?? new();
-
-                var filtered = allItems
-                    .Where(i => i.Date.Date == date)
-                    .OrderBy(i => i.Time)
-                    .ToList();
-
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    TodayItems.Clear();
-                    foreach (var item in filtered)
-                        TodayItems.Add(item);
-                });
+                AllItems = new List<ScheduleItem>();
             }
         }
+
+        public void LoadItemsForDate(DateTime date)
+        {
+            SelectedDate = date;
+
+            var filtered = AllItems
+                .Where(i => i.Date.Date == date.Date)
+                .OrderBy(i => i.Time)
+                .ToList();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                TodayItems.Clear();
+                foreach (var item in filtered)
+                    TodayItems.Add(item);
+            });
+        }
+
         public async void SaveItem(ScheduleItem item)
         {
-            List<ScheduleItem> allItems = new();
+            AllItems.Add(item);
 
-            // Читаем старые
-            if (File.Exists(FilePath))
-            {
-                var jsonOld = await File.ReadAllTextAsync(FilePath);
-                allItems = JsonSerializer.Deserialize<List<ScheduleItem>>(jsonOld) ?? new();
-            }
+            var json = JsonSerializer.Serialize(AllItems);
+            await File.WriteAllTextAsync(FilePath, json);
 
-            allItems.Add(item);
-
-            var jsonNew = JsonSerializer.Serialize(allItems);
-            await File.WriteAllTextAsync(FilePath, jsonNew);
-
-            // Обновим список, если задача на сегодня
-            if (item.Date.Date == DateTime.Today)
+            // Обновим список, если задача на выбранную дату
+            if (item.Date.Date == SelectedDate.Date)
             {
                 MainThread.BeginInvokeOnMainThread(() => TodayItems.Add(item));
             }
         }
-        public void ToggleDone(ScheduleItem item, bool isDone)
-        {
-            item.IsDone = isDone;
-            SaveAll(); // сохраняем весь список
-        }
 
-        public void DeleteItem(ScheduleItem item)
+        public async void ToggleDone(ScheduleItem item, bool isDone)
         {
-            TodayItems.Remove(item);
+            // Найдём оригинальный элемент
+            var target = AllItems.FirstOrDefault(x =>
+                x.Title == item.Title &&
+                x.Date == item.Date &&
+                x.Time == item.Time);
 
-            if (File.Exists(FilePath))
+            if (target != null)
             {
-                var json = File.ReadAllText(FilePath);
-                var allItems = JsonSerializer.Deserialize<List<ScheduleItem>>(json) ?? new();
-                allItems.RemoveAll(x => x.Title == item.Title && x.Date == item.Date && x.Time == item.Time);
-                File.WriteAllText(FilePath, JsonSerializer.Serialize(allItems));
+                target.IsDone = isDone;
+                await SaveAll();
             }
         }
-        public void SaveAll()
+
+        public async void DeleteItem(ScheduleItem item)
         {
-            var json = JsonSerializer.Serialize(TodayItems.ToList());
-            File.WriteAllText(FilePath, json);
+            // Убираем из AllItems
+            AllItems.RemoveAll(x =>
+                x.Title == item.Title &&
+                x.Date == item.Date &&
+                x.Time == item.Time);
+
+            // Сохраняем в файл
+            await SaveAll();
+
+            // Убираем из TodayItems (если на текущем экране)
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                TodayItems.Remove(item);
+            });
         }
 
+        public async Task SaveAll()
+        {
+            var json = JsonSerializer.Serialize(AllItems);
+            await File.WriteAllTextAsync(FilePath, json);
+        }
     }
 }
