@@ -14,11 +14,6 @@ namespace MyFirstMauiApp
         public App()
         {
             InitializeComponent();
-
-            var culture = new CultureInfo("ru-RU");
-            culture.DateTimeFormat.FirstDayOfWeek = DayOfWeek.Monday;
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

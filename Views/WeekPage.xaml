@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyFirstMauiApp.Views.WeekPage"
+             xmlns:local="clr-namespace:MyFirstMauiApp"
+             xmlns:views="clr-namespace:MyFirstMauiApp.Views"
+             BackgroundColor="#F5F5F5"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Content>
+
+        <VerticalStackLayout Padding="10" Spacing="15">
+
+            <!-- Строка с DatePicker + кнопка "+" -->
+            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+
+                <!-- Красивый компактный DatePicker -->
+                <Border BackgroundColor="#3E0FB6"
+                        StrokeThickness="1"
+                        Stroke="#CCCCCC"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="5"
+                        HeightRequest="50"
+                        VerticalOptions="Center"
+                        Margin="0,0,10,0">
+
+                    <DatePicker Date="{Binding StartOfWeek, Mode=TwoWay}"
+                    Format="dd MMMM yyyy"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    FontAttributes="Bold"
+                    Visual="Default"
+                    DateSelected="OnWeekStartSelected" />
+                </Border>
+
+                <!-- Кнопка "+" -->
+                <Button Text="＋"
+                    BackgroundColor="#3E0FB6"
+                    TextColor="White"
+                    CornerRadius="20"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Clicked="OnAddClicked"
+                    Grid.Column="1" />
+            </Grid>
+
+            <!-- Кнопка "Быстрое добавление задачи" -->
+            <Button Text="Быстрое добавление задачи"
+                BackgroundColor="#3E0FB6"
+                TextColor="White"
+                CornerRadius="10"
+                FontAttributes="Bold"
+                HeightRequest="45"
+                Clicked="OnAddClicked" />
+
+            <!-- Заголовок "Задачи на день" -->
+            <Label Text="Задачи на неделю"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#333333"
+               HorizontalOptions="Center"
+               Margin="0,10,0,5" />
+
+            <!-- Список задач -->
+            <Frame BackgroundColor="#E0E0E0"
+               CornerRadius="12"
+               Padding="10"
+               HasShadow="True"
+               HeightRequest="550">
+
+                <CollectionView ItemsSource="{Binding WeekItems}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#C5CAE9"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 8"
+                                Margin="0,5">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnTaskTapped"
+                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="Auto, *, Auto, Auto"
+                                  Padding="5"
+                                  ColumnSpacing="10">
+
+                                    <!-- Чекбокс выполнения -->
+                                    <CheckBox IsChecked="{Binding IsDone}"
+                                          CheckedChanged="OnCheckChanged"
+                                          VerticalOptions="Center" />
+
+                                    <!-- Название задачи -->
+                                    <Label Text="{Binding Title}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"
+                                       TextColor="#212121"
+                                       Grid.Column="1" />
+
+                                    <!-- Кнопка редактировать -->
+                                    <ImageButton Source="edit.png"
+                                             Grid.Column="2"
+                                             WidthRequest="24"
+                                             HeightRequest="24"
+                                             BackgroundColor="Transparent"
+                                             Margin="5,0"
+                                             Clicked="OnEditClicked"
+                                             CommandParameter="{Binding .}" />
+
+                                    <!-- Кнопка удалить -->
+                                    <ImageButton Source="delete.png"
+                                             Grid.Column="3"
+                                             WidthRequest="24"
+                                             HeightRequest="24"
+                                             Margin="5,0"
+                                             BackgroundColor="Transparent"
+                                             Clicked="OnDeleteClicked"
+                                             CommandParameter="{Binding .}" />
+                                </Grid>
+
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+            <views:BottomNavigationBar Grid.Row="1" />
+
+
+        </VerticalStackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -11,7 +11,7 @@
         <Grid BackgroundColor="#3E0FB6"
               Padding="0"
               HeightRequest="84"
-              WidthRequest="412"
+              WidthRequest="420"
               ColumnDefinitions="*,*,*"
               VerticalOptions="End"
               HorizontalOptions="Fill">

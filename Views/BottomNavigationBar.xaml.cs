@@ -33,18 +33,7 @@ namespace MyFirstMauiApp.Views
             var navigation = GetNavigation();
             if (navigation != null)
             {
-                await navigation.PushAsync(new ContentPage
-                {
-                    Title = "Неделя",
-                    Content = new Label
-                    {
-                        Text = "Страница Неделя",
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.Center,
-                        FontSize = 24,
-                        TextColor = Colors.Black
-                    }
-                });
+                await navigation.PushAsync(new WeekPage());
             }
         }
 
@@ -53,18 +42,7 @@ namespace MyFirstMauiApp.Views
             var navigation = GetNavigation();
             if (navigation != null)
             {
-                await navigation.PushAsync(new ContentPage
-                {
-                    Title = "Месяц",
-                    Content = new Label
-                    {
-                        Text = "Страница Месяц",
-                        HorizontalOptions = LayoutOptions.Center,
-                        VerticalOptions = LayoutOptions.Center,
-                        FontSize = 24,
-                        TextColor = Colors.Black
-                    }
-                });
+                await navigation.PushAsync(new MonthPage());
             }
         }
     }

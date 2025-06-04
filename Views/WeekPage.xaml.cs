@@ -1,30 +1,30 @@
 using Microsoft.Maui.Controls;
 using System;
-using MyFirstMauiApp.Views;   
+using MyFirstMauiApp.Views;       
 
 namespace MyFirstMauiApp.Views
 {
-    public partial class SchedulePage : ContentPage
+    public partial class WeekPage : ContentPage
     {
-        public ScheduleViewModel ViewModel;
+        public WeekViewModel ViewModel;
 
-        public SchedulePage()
+        public WeekPage()
         {
             InitializeComponent();
-            ViewModel = new ScheduleViewModel();
+            ViewModel = new WeekViewModel();
             BindingContext = ViewModel;
         }
 
         // ? Обработка выбора даты
-        public void OnDateSelected(object sender, DateChangedEventArgs e)
+        public void OnWeekStartSelected(object sender, DateChangedEventArgs e)
         {
-            ViewModel.LoadItemsForDate(e.NewDate.Date);
+            ViewModel.LoadItemsForWeek(e.NewDate.Date);
         }
 
         // ? Переход к добавлению нового дела
         public async void OnAddClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddEditPage(ViewModel));
+            await Navigation.PushAsync(new AddEditPageWeek(ViewModel));
         }
 
         // ? Отметка выполнения
@@ -53,7 +53,7 @@ namespace MyFirstMauiApp.Views
         {
             if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
             {
-                await Navigation.PushAsync(new AddEditPage(ViewModel, item));
+                await Navigation.PushAsync(new AddEditPageWeek(ViewModel, item));
             }
         }
 
@@ -61,7 +61,7 @@ namespace MyFirstMauiApp.Views
         {
             if (sender is Border border && border.BindingContext is ScheduleItem item)
             {
-                await Navigation.PushAsync(new TaskDetailsPage(item));
+                await Navigation.PushAsync(new TaskDetailsWeekPage(item));
             }
         }
     }
