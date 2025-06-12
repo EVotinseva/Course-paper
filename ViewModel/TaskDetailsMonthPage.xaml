@@ -36,21 +36,25 @@
                            FontSize="16"
                            TextColor="White" />
 
-                    <Label Text="Дата:"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="#F5F5F5" />
-                    <Label Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
-                           FontSize="16"
-                           TextColor="White" />
+                    <StackLayout x:Name="dateSection">
+                        <Label Text="Дата:"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#F5F5F5" />
+                        <Label Text="{Binding Date, StringFormat='{0:dd MMMM yyyy}'}"
+                               FontSize="16"
+                               TextColor="White" />
+                    </StackLayout>
 
-                    <Label Text="Время:"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="#F5F5F5" />
-                    <Label Text="{Binding Time}"
-                           FontSize="16"
-                           TextColor="White" />
+                    <StackLayout x:Name="timeSection">
+                        <Label Text="Время:"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#F5F5F5" />
+                        <Label Text="{Binding Time}"
+                               FontSize="16"
+                               TextColor="White" />
+                    </StackLayout>
 
                     <Label Text="Статус:"
                            FontSize="16"
@@ -59,11 +63,8 @@
                     <Label Text="{Binding IsDone, Converter={StaticResource BoolToStatusConverter}}"
                            FontSize="16"
                            TextColor="White" />
-
                 </VerticalStackLayout>
-
             </Frame>
-
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

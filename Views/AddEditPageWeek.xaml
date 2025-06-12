@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyFirstMauiApp.Views.AddEditPageWeek"
-             Title="Новое дело">
+             x:Class="MyFirstMauiApp.Views.AddEditPageWeek">
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
 
+            <!-- Название задачи -->
             <Entry x:Name="titleEntry" Placeholder="Что нужно сделать?" />
+
+            <!-- Описание задачи -->
             <Editor x:Name="descriptionEditor" Placeholder="Описание (необязательно)" AutoSize="TextChanges" />
 
+            <!-- Категория -->
             <Picker x:Name="categoryPicker" Title="Категория">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
@@ -22,9 +25,30 @@
                 </Picker.ItemsSource>
             </Picker>
 
-            <DatePicker x:Name="datePicker" />
-            <TimePicker x:Name="timePicker" Time="09:00:00" />
+            <StackLayout x:Name="dateTimeSelection" Spacing="10">
 
+                <DatePicker x:Name="datePicker" />
+
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <CheckBox x:Name="timeEnabledCheckBox"
+                              IsChecked="False"
+                              CheckedChanged="OnTimeEnabledChanged" />
+
+                    <Label Text="Указать время для уведомления"
+                           VerticalOptions="Center"
+                           FontSize="16"
+                           TextColor="#3E0FB6"
+                           FontAttributes="Bold" />
+                </HorizontalStackLayout>
+
+                <TimePicker x:Name="timePicker"
+                            Time="09:00:00"
+                            IsEnabled="False"
+                            TextColor="#3E0FB6"
+                            FontAttributes="Bold" />
+            </StackLayout>
+
+            <!-- Кнопка сохранить -->
             <Button Text="Сохранить" Clicked="OnSaveClicked" />
 
         </StackLayout>

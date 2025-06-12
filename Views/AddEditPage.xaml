@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyFirstMauiApp.Views.AddEditPage"
-             Title="Новое дело">
+             >
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
@@ -21,9 +21,25 @@
                     </x:Array>
                 </Picker.ItemsSource>
             </Picker>
-
             <DatePicker x:Name="datePicker" />
-            <TimePicker x:Name="timePicker" Time="09:00:00" />
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <CheckBox x:Name="timeEnabledCheckBox"
+                          IsChecked="False"
+                          CheckedChanged="OnTimeEnabledChanged" />
+
+                <Label Text="Указать время для уведомления"
+                       VerticalOptions="Center"
+                       FontSize="16"
+                       TextColor="#3E0FB6"
+                       FontAttributes="Bold" />
+            </HorizontalStackLayout>
+
+            <!-- TimePicker -->
+            <TimePicker x:Name="timePicker"
+                        Time="09:00:00"
+                        IsEnabled="False"
+                        TextColor="#3E0FB6"
+                        FontAttributes="Bold" />
 
             <Button Text="Сохранить" Clicked="OnSaveClicked" />
 

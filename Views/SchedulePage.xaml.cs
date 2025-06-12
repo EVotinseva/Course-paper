@@ -41,7 +41,7 @@ namespace MyFirstMauiApp.Views
         {
             if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
             {
-                bool confirm = await DisplayAlert("Удалить", $"Удалить дело «{item.Title}»?", "Да", "Нет");
+                bool confirm = await DisplayAlert("Удалить", $"Удалить задачу «{item.Title}»?", "Да", "Нет");
                 if (confirm)
                 {
                     ViewModel.DeleteItem(item);

@@ -1,6 +1,5 @@
 using Microsoft.Maui.Controls;
 using System;
-using MyFirstMauiApp.Views;
 
 namespace MyFirstMauiApp.Views
 {
@@ -15,41 +14,29 @@ namespace MyFirstMauiApp.Views
             BindingContext = ViewModel;
         }
 
-        // ? Обработка выбора даты
-        public void OnMonthStartSelected(object sender, DateChangedEventArgs e)
+        private void OnPreviousMonthClicked(object sender, EventArgs e)
         {
-            ViewModel.LoadItemsForMonth(e.NewDate.Date);
+            ViewModel.PreviousMonth();
         }
 
-        // ? Переход к добавлению нового дела
-        public async void OnAddClicked(object sender, EventArgs e)
+        private void OnNextMonthClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AddEditPageMonth(ViewModel));
+            ViewModel.NextMonth();
         }
 
-        // ? Отметка выполнения
-        public void OnCheckChanged(object sender, CheckedChangedEventArgs e)
+        private async void OnAddClicked(object sender, EventArgs e)
         {
-            if (sender is CheckBox cb && cb.BindingContext is ScheduleItem item)
+            if (ViewModel.CurrentFilterIndex == 0)
             {
-                ViewModel.ToggleDone(item, e.Value);
+                await Navigation.PushAsync(new AddEditPageMonth(ViewModel));
+            }
+            else
+            {
+                await Navigation.PushAsync(new AddEditPageMonth(ViewModel, null, isFreeTask: true));
             }
         }
 
-        // ? Удаление задачи
-        public async void OnDeleteClicked(object sender, EventArgs e)
-        {
-            if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
-            {
-                bool confirm = await DisplayAlert("Удалить", $"Удалить дело «{item.Title}»?", "Да", "Нет");
-                if (confirm)
-                {
-                    ViewModel.DeleteItem(item);
-                }
-            }
-        }
-
-        public async void OnEditClicked(object sender, EventArgs e)
+        private async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
             {
@@ -57,12 +44,42 @@ namespace MyFirstMauiApp.Views
             }
         }
 
-        public async void OnTaskTapped(object sender, EventArgs e)
+        private void OnCheckChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (sender is CheckBox cb && cb.BindingContext is ScheduleItem item)
+            {
+                ViewModel.ToggleDone(item, e.Value);
+            }
+        }
+
+        private async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            if (sender is ImageButton btn && btn.CommandParameter is ScheduleItem item)
+            {
+                bool confirm = await DisplayAlert("Удалить", $"Удалить задачу «{item.Title}»?", "Да", "Нет");
+                if (confirm)
+                {
+                    ViewModel.DeleteItem(item);
+                }
+            }
+        }
+
+        private async void OnTaskTapped(object sender, EventArgs e)
         {
             if (sender is Border border && border.BindingContext is ScheduleItem item)
             {
                 await Navigation.PushAsync(new TaskDetailsMonthPage(item));
             }
+        }
+
+        private void OnShowAllTasksClicked(object sender, EventArgs e)
+        {
+            ViewModel.UpdateFilter(0);
+        }
+
+        private void OnShowFreeTasksClicked(object sender, EventArgs e)
+        {
+            ViewModel.UpdateFilter(1);
         }
     }
 }

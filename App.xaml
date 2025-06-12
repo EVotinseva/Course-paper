@@ -12,6 +12,7 @@
                 <Setter Property="Visual" Value="Default"/>
             </Style>
             <conv:BoolToStatusConverter x:Key="BoolToStatusConverter" />
+            <local:FilterToColorConverter x:Key="FilterToColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
     

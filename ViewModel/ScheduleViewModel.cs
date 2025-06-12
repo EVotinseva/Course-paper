@@ -1,23 +1,112 @@
-﻿using Microsoft.Maui;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using MyFirstMauiApp.Views;
 using System.Collections.ObjectModel;
-using System.Text.Json;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 
 namespace MyFirstMauiApp
 {
     // Модель данных для ежедневника
-    public class ScheduleItem
+    public class ScheduleItem : INotifyPropertyChanged
     {
-        public string Title { get; set; } // Название дела
-        public string Description { get; set; } // Подробности
-        public string Category { get; set; } // Категория: личное, работа и т.д.
-        public DateTime Date { get; set; } // Дата
-        public TimeSpan Time { get; set; } // Время
-        public bool IsDone { get; set; } // Выполнено или нет
+        private string _title;
+        private string _description;
+        private string _category;
+        private DateTime _date;
+        private TimeSpan? _time;
+        private bool _isDone;
+
+        public bool IsMonthlyFree { get; set; } = false;
+
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (_title != value)
+                {
+                    _title = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                if (_description != value)
+                {
+                    _description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Category
+        {
+            get => _category;
+            set
+            {
+                if (_category != value)
+                {
+                    _category = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                if (_date != value)
+                {
+                    _date = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public TimeSpan? Time
+        {
+            get => _time;
+            set
+            {
+                if (_time != value)
+                {
+                    _time = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsDone
+        {
+            get => _isDone;
+            set
+            {
+                if (_isDone != value)
+                {
+                    _isDone = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
     public class ScheduleViewModel
@@ -86,10 +175,7 @@ namespace MyFirstMauiApp
             await File.WriteAllTextAsync(FilePath, json);
 
             // Обновим список, если задача на выбранную дату
-            if (item.Date.Date == SelectedDate.Date)
-            {
-                MainThread.BeginInvokeOnMainThread(() => TodayItems.Add(item));
-            }
+            LoadItemsForDate(SelectedDate);
         }
 
         public async void ToggleDone(ScheduleItem item, bool isDone)
