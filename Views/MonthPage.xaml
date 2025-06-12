@@ -45,18 +45,18 @@
             <HorizontalStackLayout Spacing="10"
                                    HorizontalOptions="Center"
                                    Margin="0,10,0,0">
-                <Button Text="Все задачи на месяц"
+                <Button Text="Задачи на месяц"
                         BackgroundColor="{Binding CurrentFilterIndex, Converter={StaticResource FilterToColorConverter}, ConverterParameter=0}"
                         TextColor="White"
                         CornerRadius="10"
-                        Padding="15,5"
+                        Padding="10,5"
                         Clicked="OnShowAllTasksClicked" />
 
                 <Button Text="Свободные задачи"
                         BackgroundColor="{Binding CurrentFilterIndex, Converter={StaticResource FilterToColorConverter}, ConverterParameter=1}"
                         TextColor="White"
                         CornerRadius="10"
-                        Padding="15,5"
+                        Padding="10,5"
                         Clicked="OnShowFreeTasksClicked" />
             </HorizontalStackLayout>
 

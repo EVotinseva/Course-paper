@@ -20,7 +20,7 @@
                         Padding="5"
                         HeightRequest="50"
                         VerticalOptions="Center"
-                        Margin="0,0,10,0">
+                        Margin="0,0,0,0">
 
                     <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
                                 Format="dd MMMM yyyy"
