@@ -124,11 +124,21 @@
                                     <CheckBox IsChecked="{Binding IsDone}"
                                               CheckedChanged="OnCheckChanged"
                                               VerticalOptions="Center" />
-                                    <Label Text="{Binding Title}"
-                                           FontSize="16"
-                                           VerticalOptions="Center"
-                                           TextColor="#212121"
-                                           Grid.Column="1" />
+                                    <VerticalStackLayout Grid.Column="1"
+                                                         VerticalOptions="Center"
+                                                         Spacing="2">
+
+                                        <!-- Название задачи -->
+                                        <Label Text="{Binding Title}"
+                                               FontSize="16"
+                                               TextColor="#212121" />
+
+                                        <!-- Дата (только если она задана) -->
+                                        <Label Text="{Binding Date, StringFormat='дата: {0:dd MMMM yyyy}'}"
+                                               FontSize="14"
+                                               TextColor="#555"
+                                               IsVisible="{Binding Date, Converter={StaticResource DateToBoolConverter}}" />
+                                    </VerticalStackLayout>
                                     <ImageButton Source="edit.png"
                                                  Grid.Column="2"
                                                  WidthRequest="24"

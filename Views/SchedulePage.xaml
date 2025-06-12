@@ -77,60 +77,67 @@
 
                 <!-- Список задач -->
                 <Frame BackgroundColor="#E0E0E0"
-                   CornerRadius="12"
-                   Padding="10"
-                   HasShadow="True"
-                   HeightRequest="595">
+                       CornerRadius="12"
+                       Padding="10"
+                       HasShadow="True"
+                       HeightRequest="595">
 
                     <CollectionView ItemsSource="{Binding TodayItems}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border BackgroundColor="#C5CAE9"
-                                    StrokeThickness="0"
-                                    StrokeShape="RoundRectangle 8"
-                                    Margin="0,5">
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 8"
+                                        Margin="0,5">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnTaskTapped"
-                              CommandParameter="{Binding .}" />
+                                      CommandParameter="{Binding .}" />
                                     </Border.GestureRecognizers>
 
                                     <Grid ColumnDefinitions="Auto, *, Auto, Auto"
-                                      Padding="5"
-                                      ColumnSpacing="10">
+                                          Padding="5"
+                                          ColumnSpacing="10">
 
                                         <!-- Чекбокс выполнения -->
                                         <CheckBox IsChecked="{Binding IsDone}"
-                                              CheckedChanged="OnCheckChanged"
-                                              VerticalOptions="Center" />
+                                                  CheckedChanged="OnCheckChanged"
+                                                  VerticalOptions="Center" />
 
-                                        <!-- Название задачи -->
-                                        <Label Text="{Binding Title}"
-                                           FontSize="16"
-                                           VerticalOptions="Center"
-                                           TextColor="#212121"
-                                           Grid.Column="1" />
+                                        <!-- Название и (опционально) время -->
+                                        <VerticalStackLayout Grid.Column="1"
+                                                             VerticalOptions="Center"
+                                                             Spacing="2">
+                                            <Label Text="{Binding Title}"
+                                                   FontSize="16"
+                                                   TextColor="#212121" />
+
+                                            <!-- Время (отображается только если Time не null) -->
+                                            <Label Text="{Binding Time, StringFormat='в {0:hh\\:mm}'}"
+                                                   FontSize="14"
+                                                   TextColor="#555"
+                                                   IsVisible="{Binding Time, Converter={StaticResource NullToBoolConverter}}" />
+                                        </VerticalStackLayout>
 
                                         <!-- Кнопка редактировать -->
                                         <ImageButton Source="edit.png"
-                                                 Grid.Column="2"
-                                                 WidthRequest="24"
-                                                 HeightRequest="24"
-                                                 BackgroundColor="Transparent"
-                                                 Margin="5,0"
-                                                 Clicked="OnEditClicked"
-                                                 CommandParameter="{Binding .}" />
+                                                     Grid.Column="2"
+                                                     WidthRequest="24"
+                                                     HeightRequest="24"
+                                                     BackgroundColor="Transparent"
+                                                     Margin="5,0"
+                                                     Clicked="OnEditClicked"
+                                                     CommandParameter="{Binding .}" />
 
                                         <!-- Кнопка удалить -->
                                         <ImageButton Source="delete.png"
-                                                 Grid.Column="3"
-                                                 WidthRequest="24"
-                                                 HeightRequest="24"
-                                                 Margin="5,0"
-                                                 BackgroundColor="Transparent"
-                                                 Clicked="OnDeleteClicked"
-                                                 CommandParameter="{Binding .}" />
+                                                     Grid.Column="3"
+                                                     WidthRequest="24"
+                                                     HeightRequest="24"
+                                                     Margin="5,0"
+                                                     BackgroundColor="Transparent"
+                                                     Clicked="OnDeleteClicked"
+                                                     CommandParameter="{Binding .}" />
                                     </Grid>
-
                                 </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

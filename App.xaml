@@ -13,6 +13,8 @@
             </Style>
             <conv:BoolToStatusConverter x:Key="BoolToStatusConverter" />
             <local:FilterToColorConverter x:Key="FilterToColorConverter" />
+            <local:NullToBoolConverter x:Key="NullToBoolConverter" />
+            <local:DateToBoolConverter x:Key="DateToBoolConverter" />
         </ResourceDictionary>
     </Application.Resources>
     
