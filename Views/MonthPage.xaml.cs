@@ -81,5 +81,10 @@ namespace MyFirstMauiApp.Views
         {
             ViewModel.UpdateFilter(1);
         }
+
+        private async void OnSettingsClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
+        }
     }
 }

@@ -12,25 +12,35 @@
 
         <Grid RowDefinitions="*, Auto" BackgroundColor="Transparent">
             <VerticalStackLayout Grid.Row="0" Padding="10" Spacing="15">
-                <!-- Красивый компактный DatePicker -->
-                <Border BackgroundColor="#3E0FB6"
-                        StrokeThickness="1"
-                        Stroke="#CCCCCC"
-                        StrokeShape="RoundRectangle 10"
-                        Padding="5"
-                        HeightRequest="50"
-                        VerticalOptions="Center"
-                        Margin="0,0,0,0">
 
-                    <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
-                                Format="dd MMMM yyyy"
-                                TextColor="White"
-                                BackgroundColor="Transparent"
-                                FontAttributes="Bold"
-                                Visual="Default"
-                                DateSelected="OnDateSelected"
-                                />
-                </Border>
+                <Grid ColumnDefinitions="*, Auto">
+                    <!-- Красивый компактный DatePicker -->
+                    <Border BackgroundColor="#3E0FB6"
+                            StrokeThickness="1"
+                            Stroke="#CCCCCC"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="5"
+                            HeightRequest="50"
+                            VerticalOptions="Center"
+                            Margin="0,0,0,0">
+
+                        <DatePicker Date="{Binding SelectedDate, Mode=TwoWay}"
+                                    Format="dd MMMM yyyy"
+                                    TextColor="White"
+                                    BackgroundColor="Transparent"
+                                    FontAttributes="Bold"
+                                    Visual="Default"
+                                    DateSelected="OnDateSelected"
+                                    />
+                    </Border>
+                    <ImageButton Source="settings.png"
+                                 WidthRequest="40"
+                                 HeightRequest="40"
+                                 Clicked="OnSettingsClicked"
+                                 Grid.Column="1"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Center"/>
+                </Grid>
 
                 <Grid ColumnDefinitions="*, Auto"
                       ColumnSpacing="30"

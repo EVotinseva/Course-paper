@@ -10,31 +10,41 @@
         <Grid RowDefinitions="*, Auto" BackgroundColor="Transparent">
             <VerticalStackLayout Grid.Row="0" Padding="10" Spacing="15">
 
-                <!-- Навигационная строка -->
-                <Grid ColumnDefinitions="Auto, *, Auto, Auto"
-                      VerticalOptions="Center"
-                      Margin="0, 15, 0, 0">
+                <Grid ColumnDefinitions="*, Auto"
+                      Margin="0,15,0,0">
+                    <!-- Навигационная строка -->
+                    <Grid ColumnDefinitions="Auto, *, Auto"
+                          VerticalOptions="Center"
+                          Margin="0, 0, 0, 0">
 
-                    <ImageButton Source="left_arrow.png"
-                                 BackgroundColor="Transparent"
+                        <ImageButton Source="left_arrow.png"
+                                     BackgroundColor="Transparent"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     Clicked="OnPreviousWeekClicked" />
+
+                        <Label Text="{Binding WeekRangeText}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="#333333"
+                               Grid.Column="1" />
+
+                        <ImageButton Source="right_arrow.png"
+                                     BackgroundColor="Transparent"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     Clicked="OnNextWeekClicked"
+                                     Grid.Column="2" />
+                    </Grid>
+                    <ImageButton Source="settings.png"
                                  WidthRequest="40"
                                  HeightRequest="40"
-                                 Clicked="OnPreviousWeekClicked" />
-
-                    <Label Text="{Binding WeekRangeText}"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           TextColor="#333333"
-                           Grid.Column="1" />
-
-                    <ImageButton Source="right_arrow.png"
-                                 BackgroundColor="Transparent"
-                                 WidthRequest="40"
-                                 HeightRequest="40"
-                                 Clicked="OnNextWeekClicked"
-                                 Grid.Column="2" />
+                                 Clicked="OnSettingsClicked"
+                                 Grid.Column="1"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Center"/>
                 </Grid>
 
                 <!-- Переключатель "режима просмотра" -->

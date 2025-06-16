@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyFirstMauiApp.Views.SettingsPage"
+             Title="Настройки"
+             BackgroundColor="#F5F5F5">
+    <VerticalStackLayout Padding="20" Spacing="20">
+        <Button Text="Руководство пользователя"
+                Clicked="OnOpenManualClicked"
+                BackgroundColor="#3E0FB6"
+                TextColor="White"
+                CornerRadius="10" />
+
+        <Label Text="Разработчики:"
+               FontAttributes="Bold"
+               FontSize="16" />
+        <Label Text="Екатерина Вотинцева"/>
+        <Label Text="Евгений Кочнев"/>
+
+        <Label Text="Версия приложения: 1.0" />
+    </VerticalStackLayout>
+</ContentPage>

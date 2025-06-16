@@ -64,5 +64,10 @@ namespace MyFirstMauiApp.Views
                 await Navigation.PushAsync(new TaskDetailsPage(item));
             }
         }
+
+        private async void OnSettingsClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
+        }
     }
 }
